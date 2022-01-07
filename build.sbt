@@ -7,6 +7,10 @@ val baseTestLibraries = Seq(
   "org.scalatest" %% "scalatest" % "3.2.10" % Test
 )
 
+val baseScala3TestLibraries = Seq(
+  "org.scalatest" %% "scalatest" % "3.2.10" % Test cross (CrossVersion.for3Use2_13)
+)
+
 lazy val root = project
   .in(file("."))
   .settings(
@@ -41,8 +45,8 @@ lazy val ui = project
   .settings(
     name := "ui",
     version := "0.1",
-    scalaVersion := scala2Version, //want to migrate to scala3
-    libraryDependencies ++= baseTestLibraries
+    scalaVersion := scala3Version, //want to migrate to scala3
+    libraryDependencies ++= baseScala3TestLibraries
   )
   .dependsOn(web % "compile->compile;test->test", utils % "compile->compile;test->test") // tests depend on tests
 
