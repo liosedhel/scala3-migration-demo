@@ -44,7 +44,7 @@ lazy val ui = project
     version := "0.1",
     scalaVersion := scala2Version, //want to migrate to scala3
     libraryDependencies ++= baseTestLibraries,
-    crossScalaVersions ++= Seq(scala2Version, scala3Version),
+    //crossScalaVersions ++= Seq(scala2Version, scala3Version),
     scalacOptions := {
       if (scalaVersion.value == "2.13.7") Seq("-Xsource:3")
       else Seq("-source:3.0-migration")
