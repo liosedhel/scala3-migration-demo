@@ -37,14 +37,18 @@ lazy val web = project
   )
   .dependsOn(utils % "compile->compile;test->test") // tests depend on tests
 
-// to be migrated first, most outer module
 lazy val ui = project
   .in(file("ui"))
   .settings(
     name := "ui",
     version := "0.1",
     scalaVersion := scala2Version, //want to migrate to scala3
-    libraryDependencies ++= baseTestLibraries
+    libraryDependencies ++= baseTestLibraries,
+    crossScalaVersions ++= Seq(scala2Version, scala3Version),
+    scalacOptions := {
+      if (scalaVersion.value == "2.13.7") Seq("-Xsource:3")
+      else Seq("-source:3.0-migration")
+    }
   )
   .dependsOn(
     web % "compile->compile;test->test",
