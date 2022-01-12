@@ -14,7 +14,7 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala2Version
   )
-  .aggregate(utils, web, ui)
+  .aggregate(ui, utils, web)
 
 lazy val utils = project
   .in(file("utils"))
@@ -22,6 +22,7 @@ lazy val utils = project
     name := "utils",
     version := "0.1",
     scalaVersion := scala2Version,
+    crossScalaVersions ++= Seq(scala2Version, scala3Version),
     libraryDependencies ++= baseTestLibraries
   )
 
@@ -31,6 +32,7 @@ lazy val web = project
     name := "web",
     version := "0.1",
     scalaVersion := scala2Version,
+    crossScalaVersions ++= Seq(scala2Version, scala3Version),
     libraryDependencies ++= baseTestLibraries
   )
   .dependsOn(utils % "compile->compile;test->test") // tests depend on tests
@@ -44,5 +46,7 @@ lazy val ui = project
     scalaVersion := scala2Version, //want to migrate to scala3
     libraryDependencies ++= baseTestLibraries
   )
-  .dependsOn(web % "compile->compile;test->test", utils % "compile->compile;test->test") // tests depend on tests
-
+  .dependsOn(
+    web % "compile->compile;test->test",
+    utils % "compile->compile;test->test"
+  ) // tests depend on tests

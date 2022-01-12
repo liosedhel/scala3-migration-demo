@@ -14,4 +14,6 @@ trait BaseSuite extends AnyFlatSpec with should.Matchers {
     Utils.printHelloWorld() shouldBe 0
   }
 
+  //extension (c: String) def circumference: Double = 2.0
+
 }
