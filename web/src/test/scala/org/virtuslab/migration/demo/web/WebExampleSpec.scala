@@ -24,4 +24,48 @@ class ExampleSpecWeb extends BaseSuite {
   it should "use the TestUtils" in {
     TestUtils.printHelloWorld() shouldBe 0
   }
+
+  trait Animal //super type of Dog and Cat
+  case class Dog() extends Animal //subtype of Animal
+  case class Cat() extends Animal //subtype of Animal
+
+  class MyInvariantBox[T] {
+    def print(t: T) = println(s"Works $t")
+  }
+
+  class MyCovariantBox[+T] {
+    //def print(t: T) = println(s"Works $t")
+  }
+  class MyContravariantBox[-T] {
+    def print(t: T): Unit = println(t)
+  }
+
+  val box1: MyInvariantBox[Animal] = MyInvariantBox[Animal]()
+  box1.print(new Cat())
+  box1.print(new Dog())
+  val box2: MyCovariantBox[Animal] = MyCovariantBox[Cat]()
+
+  val box3 = MyContravariantBox[Animal]()
+
+  val box4 = MyContravariantBox[Cat]()
+  box4.print(new Cat())
+
+  def animalPrint[T](box: MyContravariantBox[T], animal: T) = {
+    box.print(animal)
+  }
+
+  animalPrint(MyContravariantBox[Animal](), new Cat())
+
+  def animalPrintInv[T](box: MyInvariantBox[T], animal: T) = {
+    box.print(animal)
+  }
+
+  //animalPrintInv(MyContravariantBox[Animal](), new Cat())
+
+  def animalPrintCov[T](box: MyCovariantBox[T], animal: T) = {
+    // box.print(animal)
+  }
+
+  animalPrintCov(MyCovariantBox[Cat](), new Cat(): Animal)
+
 }
